@@ -3,8 +3,12 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 98vh;
     background-color: black;
+  }
+
+  body > button {
+    cursor: pointer;
   }
 
   body > button {
@@ -14,15 +18,19 @@ body{
     padding: 0vmin;
     border: 0vmin;
     background-color: transparent;
-    color: white;
+    color: grey;
     font-size: 3vmin; 
+  }
+
+  body > button:hover {
+    color: white;
   }
 
   
 canvas {
     position: relative;
-    width: 900px;
-    height: 900px;
+    /* width: 900px; */
+    /* height: 900px; */
     background-color: #D9D9D9;
 
 }

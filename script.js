@@ -6,15 +6,25 @@ const canvasHeight = 900; //set canvasHeight
 const color = ['#E6E6E6','#F7F7F7','#FFFFF'];
 const sizes = [15, 30, 125, 150];
 
+
 /*----- state variables -----*/
+let player;
 let bubbles = [];
 let players = [];
+var speed = 5;
 
 /*----- cached elements -----*/
-const restart = document.querySelector('#restart');
+const restartBtn = document.querySelector('button');
 const level = document.querySelector('h3');
 
 /*----- event listeners -----*/
+
+ restartBtn.addEventListener('click', startGame);
+
+//  window.onload = function() {
+//     restartGame();
+//  };
+
 window.addEventListener("keydown", function(event) {
     if (event.key == "ArrowRight" || event.key == "d" ) {
         player.moveRight();
@@ -71,6 +81,30 @@ class Bubble {
         return this.x+this.radius;
     }
 
+    moveLeft() {
+        if (this.x > 0) {
+            this.x -= speed*10;
+        }
+    }
+
+    moveRight() {
+        if (this.x < canvasWidth) {
+            this.x += speed*10;
+        }
+    }
+
+    moveUp() {
+        if (this.y > 0) {
+            this.y -= speed*10;
+        }
+    }
+
+    moveDown() {
+        if (this.y < canvasHeight) {
+            this.y += speed*10;
+        }
+    }
+
     // Methods
 
     static generateNonOverlappingPosition(radius, bubbles, color) {
@@ -95,7 +129,7 @@ class Bubble {
 }
 
 function generateBubbles() {
-    const num15 = Math.floor(Math.random() * 50) + 1;
+    const num15 = Math.floor(Math.random() * 30) + 15;
     const num30 = Math.floor(Math.random() * (num15 * 0.5)) + 1;
     const num125 = Math.floor(Math.random() * (num30 * 0.5)) + 1;
     const num150 = Math.floor(Math.random() * (num125 * 0.5)) + 1;
@@ -125,10 +159,42 @@ function generateBubbles() {
 function initialize() {
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
-    generateBubbles();
-    const player = Bubble.generateNonOverlappingPosition(20, bubbles, 'black');
-    player.draw();
-    players.push(player);
+    
 } 
 
 initialize();
+
+
+
+function startGame() {
+    generateBubbles();
+    player = Bubble.generateNonOverlappingPosition(20, bubbles, 'black');
+    player.draw();
+    players.push(player);
+    
+}
+
+startGame();
+
+
+
+// function restartGame() {
+//     let bubbles = [];
+//     let players = [];
+//     ctx.clearRect(0, 0, canvas.width, canvas.height);
+//     StartGame();
+//     window.requestAnimationFrame(animate);
+// }
+
+// function animate(step) {
+//     //Runs animate over and over again 60 frames per second
+//     initialize();
+
+//     player.draw();
+    
+
+    
+//     window.requestAnimationFrame(animate);
+// }
+
+// window.requestAnimationFrame(animate);

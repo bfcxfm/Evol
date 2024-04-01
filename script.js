@@ -3,7 +3,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const canvasWidth = 900; //set canvasWidth
 const canvasHeight = 900; //set canvasHeight
-const color = ['#E6E6E6','#F7F7F7','#FFFFF'];
+const color = ['#e6e6e6','#f7f7f7','#fffff'];
 const sizes = [15, 30, 125, 150];
 
 
@@ -11,7 +11,7 @@ const sizes = [15, 30, 125, 150];
 let player;
 let bubbles = [];
 let players = [];
-var speed = 5;
+var speed = 15;
 
 /*----- cached elements -----*/
 const restartBtn = document.querySelector('button');
@@ -19,7 +19,7 @@ const level = document.querySelector('h3');
 
 /*----- event listeners -----*/
 
- restartBtn.addEventListener('click', startGame);
+ restartBtn.addEventListener('click', restartGame);
 
 //  window.onload = function() {
 //     restartGame();
@@ -57,6 +57,8 @@ class Bubble {
         this.y = y;
         this.color = color;
         this.radius = radius;
+        this.xVelocity = 0;
+        this.yVelocity = 0;
     }
 
     // Getter and setter
@@ -81,27 +83,68 @@ class Bubble {
         return this.x+this.radius;
     }
 
+    // moveLeft() {
+    //     if (this.x > 0) {
+    //         this.x -= speed;
+    //     }
+    // }
+
     moveLeft() {
-        if (this.x > 0) {
-            this.x -= speed*10;
+        this.xVelocity = Math.min(this.xVelocity + 0.5, speed);
+        this.x -= this.xVelocity;
+
+        // Wrap around the canvas horizontally
+        if (this.x < -this.radius) {
+            this.x = canvasWidth + this.radius;
         }
     }
+
+    // moveRight() {
+    //     if (this.x < canvasWidth) {
+    //         this.x += speed;
+    //     }
+    // }
 
     moveRight() {
-        if (this.x < canvasWidth) {
-            this.x += speed*10;
+        this.xVelocity = Math.min(this.xVelocity + 0.5, speed);
+        this.x += this.xVelocity;
+
+        // Wrap around the canvas horizontally
+        if (this.x > canvasWidth + this.radius) {
+            this.x = -this.radius;
         }
     }
+
+    // moveUp() {
+    //     if (this.y > 0) {
+    //         this.y -= speed;
+    //     }
+    // }
 
     moveUp() {
-        if (this.y > 0) {
-            this.y -= speed*10;
+        this.yVelocity = Math.min(this.yVelocity + 0.5, speed);
+        this.y -= this.yVelocity;
+
+        // Wrap around the canvas vertically
+        if (this.y < -this.radius) {
+            this.y = canvasHeight + this.radius;
         }
     }
 
+
+    // moveDown() {
+    //     if (this.y < canvasHeight) {
+    //         this.y += speed;
+    //     }
+    // }
+
     moveDown() {
-        if (this.y < canvasHeight) {
-            this.y += speed*10;
+        this.yVelocity = Math.min(this.yVelocity + 0.5, speed);
+        this.y += this.yVelocity;
+
+        // Wrap around the canvas vertically
+        if (this.y > canvasHeight + this.radius) {
+            this.y = -this.radius;
         }
     }
 
@@ -119,6 +162,29 @@ class Bubble {
     static checkOverlap(bubble, x, y, radius) {
         return Math.hypot(bubble.x - x, bubble.y - y) < bubble.radius + radius;
     }
+
+    touch(otherBubble) {
+        // Check if the bubbles are touching
+        if (Bubble.checkOverlap(this, otherBubble.x, otherBubble.y, otherBubble.radius)) {
+            // Determine the bubble with the smaller radius
+            const smallerBubble = this.radius < otherBubble.radius ? this : otherBubble;
+            const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
+
+            // Remove the smaller bubble
+            const index = bubbles.indexOf(smallerBubble);
+            if (index !== -1 ) {
+                bubbles.splice(index, 1);
+                console.log(bubbles);
+                console.log(players);
+            }
+        
+
+
+            // Increase the radius of the larger bubble
+            largerBubble.radius += smallerBubble.radius*0.5;
+        }
+    }
+
 
     draw() {
         ctx.beginPath();
@@ -170,7 +236,8 @@ function startGame() {
     generateBubbles();
     player = Bubble.generateNonOverlappingPosition(20, bubbles, 'black');
     player.draw();
-    players.push(player);
+    bubbles.push(player);
+    // players.push(player);
     
 }
 
@@ -178,23 +245,34 @@ startGame();
 
 
 
-// function restartGame() {
-//     let bubbles = [];
-//     let players = [];
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     StartGame();
-//     window.requestAnimationFrame(animate);
-// }
 
-// function animate(step) {
-//     //Runs animate over and over again 60 frames per second
-//     initialize();
 
-//     player.draw();
+function restartGame() {
+    bubbles = [];
+    players = [];
+    startGame();
+}
+
+function animate(step) {
+    //Runs animate over and over again 60 frames per second
+    initialize();
+
+    // player.draw();
+
+
+    bubbles.forEach((bubble,index) => {
+        
+        bubble.draw();
+        // Check for collisions with other bubbles
+        for (let i = index + 1; i < bubbles.length; i++) {
+            bubble.touch(bubbles[i]);
+        }
+    });
+
     
+    window.requestAnimationFrame(animate);
+}
 
-    
-//     window.requestAnimationFrame(animate);
-// }
+window.requestAnimationFrame(animate);
 
-// window.requestAnimationFrame(animate);
+

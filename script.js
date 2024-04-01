@@ -15,7 +15,7 @@ var speed = 15;
 
 /*----- cached elements -----*/
 const restartBtn = document.querySelector('button');
-const level = document.querySelector('h3');
+const message = document.querySelector('h3');
 
 /*----- event listeners -----*/
 
@@ -290,6 +290,8 @@ function restartGame() {
 function animate(step) {
     //Runs animate over and over again 60 frames per second
     initialize();
+    let playerIsBiggest = true; // Flag to check if the player is the biggest
+    let playerIsSmallest = true; // Flag to check if the player is the smallest
 
     // player.draw();
 
@@ -301,7 +303,29 @@ function animate(step) {
         for (let i = index + 1; i < bubbles.length; i++) {
             bubble.touch(bubbles[i]);
         }
+        // Check if player's radius is smaller than any other bubble
+        if (bubble !== player && player.radius <= bubble.radius) {
+            playerIsBiggest = false;
+        }
+
+        // Check if player's radius is bigger than any other bubble
+        if (bubble !== player && player.radius >= bubble.radius) {
+            playerIsSmallest = false;
+        }
     });
+
+    // If player is the biggest
+    if (playerIsBiggest) {
+        message.innerHTML = 'YOU WIN';
+    }
+
+    // If player is the smallest
+    if (playerIsSmallest) {
+        message.innerHTML = 'YOU LOSE';
+    }
+
+
+
 
     
     window.requestAnimationFrame(animate);

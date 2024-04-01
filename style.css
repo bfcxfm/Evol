@@ -7,14 +7,23 @@ body{
     background-color: black;
   }
 
+h3{
+  margin-top: 0vmin;
+  font-size: 4vmin;
+  color:blanchedalmond ;
+  font-family: Papyrus,fantasy; 
+}
+
   body > button {
     cursor: pointer;
   }
+  
+
 
   body > button {
     display: flex;
     justify-content: flex-end;
-    margin: 3vmin;
+    margin: -5vmin;
     padding: 0vmin;
     border: 0vmin;
     background-color: transparent;

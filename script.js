@@ -175,8 +175,11 @@ class Bubble {
 
             // Remove the smaller bubble
             const index = bubbles.indexOf(smallerBubble);
+            console.log(index);
             if (index !== -1 && index !== bubbles.length-1) {
+                
                 bubbles.splice(index, 1);
+            
                 console.log(bubbles);
                 console.log(players);
                 // Increase the radius of the larger bubble
@@ -186,6 +189,7 @@ class Bubble {
                 let totalIncrease = largerBubble.radius + smallerBubble.radius*0.5;
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
+                    // smallerBubble.radius -= radiusIncrement;
                     if (largerBubble.radius >=  totalIncrease) {
                         clearInterval(intervalId);
                     }

@@ -23,7 +23,7 @@ h3{
   body > button {
     display: flex;
     justify-content: flex-end;
-    margin: -5vmin;
+    margin: 0vmin;
     padding: 0vmin;
     border: 0vmin;
     background-color: transparent;

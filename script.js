@@ -339,13 +339,11 @@ function animate(step) {
     // If player is the biggest
     if (playerIsBiggest) {
         drawWinPopup();
-        message.innerHTML = 'YOU WIN';
     }
 
     // If player is the smallest
     if (playerIsSmallest) {
         drawLosePopup()
-        message.innerHTML = 'YOU LOSE';
     }
 
 

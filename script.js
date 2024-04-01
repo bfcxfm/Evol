@@ -169,19 +169,29 @@ class Bubble {
             // Determine the bubble with the smaller radius
             const smallerBubble = this.radius < otherBubble.radius ? this : otherBubble;
             const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
+            const totalDistance = Math.hypot(this.x - otherBubble.x, this.y - otherBubble.y);
+            const difference = largerBubble.radius + smallerBubble.radius - totalDistance;
+            console.log(difference);
 
             // Remove the smaller bubble
             const index = bubbles.indexOf(smallerBubble);
-            if (index !== -1 ) {
+            if (index !== -1 && index !== bubbles.length-1) {
                 bubbles.splice(index, 1);
                 console.log(bubbles);
                 console.log(players);
+                // Increase the radius of the larger bubble
+                largerBubble.radius += smallerBubble.radius*0.5;
+            } else if (index === bubbles.length-1) {
+                largerBubble.radius += difference*0.5;
+                smallerBubble.radius -= difference;
+                console.log(bubbles);
+                console.log(players);
+
             }
         
 
 
-            // Increase the radius of the larger bubble
-            largerBubble.radius += smallerBubble.radius*0.5;
+            
         }
     }
 

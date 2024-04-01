@@ -203,8 +203,12 @@ class Bubble {
                 let totalReduce = smallerBubble.radius - difference;
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
-                    smallerBubble.radius -= radiusReduce ;
-                    if (largerBubble.radius >=  totalIncrease || smallerBubble.radius >= totalReduce ) {
+                    if (smallerBubble.radius - radiusReduce >= 0) {
+                        smallerBubble.radius -= radiusReduce;
+                    } else {
+                        smallerBubble.radius = 0; 
+                    }
+                    if (largerBubble.radius >=  totalIncrease || smallerBubble.radius <= totalReduce ) {
                         clearInterval(intervalId);
                     }
                 }, 50); // Increase the radius every 50 milliseconds
@@ -287,6 +291,24 @@ function restartGame() {
     startGame();
 }
 
+function drawWinPopup() {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.font = '30px Arial';
+    ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2);
+}
+
+function drawLosePopup() {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.font = '30px Arial';
+    ctx.fillText('YOU LOSE!', canvas.width / 2, canvas.height / 2);
+}
+
 function animate(step) {
     //Runs animate over and over again 60 frames per second
     initialize();
@@ -316,11 +338,13 @@ function animate(step) {
 
     // If player is the biggest
     if (playerIsBiggest) {
+        drawWinPopup();
         message.innerHTML = 'YOU WIN';
     }
 
     // If player is the smallest
     if (playerIsSmallest) {
+        drawLosePopup()
         message.innerHTML = 'YOU LOSE';
     }
 

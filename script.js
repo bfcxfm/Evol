@@ -1,8 +1,8 @@
 /*----- constants -----*/
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const canvasWidth = 900; //set canvasWidth
-const canvasHeight = 900; //set canvasHeight
+const canvasWidth = 800; //set canvasWidth
+const canvasHeight = 800; //set canvasHeight
 const color = ['#e6e6e6','#f7f7f7','#fffff'];
 const sizes = [15, 30, 125, 150];
 
@@ -47,9 +47,6 @@ function randomItem(arr) {
     return arr[randomIndex];
 }
 
-function handlePlayerInput(event) {
-    // Update player position based on key press
-}
 
 class Bubble {
     constructor(x, y, radius, color) {
@@ -276,6 +273,8 @@ function startGame() {
     player.draw();
     bubbles.push(player);
     // players.push(player);
+    console.log(bubbles);
+    console.log(players);
     
 }
 

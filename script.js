@@ -3,7 +3,11 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const canvasWidth = 800; //set canvasWidth
 const canvasHeight = 800; //set canvasHeight
-const color = ['#e6e6e6','#f7f7f7','#fffff'];
+// const colors = ['#e6e6e6','#f7f7f7','#fffff'];
+// const colors = ['#A0CED9','#B7E4C7','#AFE1E7','#D8BFD8','#FFC0CB'];
+const colors = ['#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47'];
+// const colorChange = ['#ff1111','#f2e900','#007aff','#02d7f2'];
+const colorChange = ['#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47'];
 const sizes = [15, 30, 125, 150];
 
 
@@ -11,7 +15,7 @@ const sizes = [15, 30, 125, 150];
 let player;
 let bubbles = [];
 let players = [];
-var speed = 15;
+var speed = 20;
 
 /*----- cached elements -----*/
 const restartBtn = document.querySelector('button');
@@ -20,6 +24,10 @@ const message = document.querySelector('h3');
 /*----- event listeners -----*/
 
  restartBtn.addEventListener('click', restartGame);
+ canvas.addEventListener('mousemove', (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+});
 
 //  window.onload = function() {
 //     restartGame();
@@ -49,7 +57,7 @@ function randomItem(arr) {
 
 
 class Bubble {
-    constructor(x, y, radius, color) {
+    constructor(x, y, radius, color = randomItem(colors)) {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -168,14 +176,15 @@ class Bubble {
             const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
             const totalDistance = Math.hypot(this.x - otherBubble.x, this.y - otherBubble.y);
             const difference = largerBubble.radius + smallerBubble.radius - totalDistance;
-            console.log(difference);
+            // console.log(difference);
 
             // Remove the smaller bubble
             const index = bubbles.indexOf(smallerBubble);
-            console.log(index);
+            // console.log(index);
             if (index !== -1 && index !== bubbles.length-1) {
                 
                 bubbles.splice(index, 1);
+                score += 1;
             
                 console.log(bubbles);
                 console.log(players);
@@ -186,9 +195,13 @@ class Bubble {
                 let totalIncrease = largerBubble.radius + smallerBubble.radius*0.5;
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
+                    const colorFixed = largerBubble.color;
+                    largerBubble.color = randomItem(colorChange);
                     // smallerBubble.radius -= radiusIncrement;
                     if (largerBubble.radius >=  totalIncrease) {
+                        largerBubble.color = 'black';
                         clearInterval(intervalId);
+                        
                     }
                 }, 50); // Increase the radius every 50 milliseconds
             } else if (index === bubbles.length-1) {
@@ -200,6 +213,7 @@ class Bubble {
                 let totalReduce = smallerBubble.radius - difference;
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
+                    largerBubble.color = randomItem(colorChange);
                     if (smallerBubble.radius - radiusReduce >= 0) {
                         smallerBubble.radius -= radiusReduce;
                     } else {
@@ -230,28 +244,32 @@ class Bubble {
 }
 
 function generateBubbles() {
-    const num15 = Math.floor(Math.random() * 30) + 15;
-    const num30 = Math.floor(Math.random() * (num15 * 0.5)) + 1;
-    const num125 = Math.floor(Math.random() * (num30 * 0.5)) + 1;
-    const num150 = Math.floor(Math.random() * (num125 * 0.5)) + 1;
+    const num15 = Math.floor(Math.random() * 20) + 10;
+    const num30 = Math.floor(Math.random() * 20) + 5;
+    // const num100 = Math.floor(Math.random() * (num30 * 0.5)) + 1;
+    // const num150 = Math.floor(Math.random() * (num100 * 0.5)) + 1;
+    // const num15 = Math.floor(Math.random() * 40) + 1;
+    // const num30 = Math.floor(Math.random() * 20) + 1;
+    const num100 = Math.floor(Math.random() * 3) + 1;
+    const num150 = Math.floor(Math.random() * 2) + 1;
 
     for (let i = 0; i < num150; i++) {
-        const bubble = Bubble.generateNonOverlappingPosition(150, bubbles, randomItem(color));
+        const bubble = Bubble.generateNonOverlappingPosition(150, bubbles, randomItem(colors));
         bubbles.push(bubble);
         bubble.draw();
     }
-    for (let i = 0; i < num125; i++) {
-        const bubble = Bubble.generateNonOverlappingPosition(125, bubbles, randomItem(color));
+    for (let i = 0; i < num100; i++) {
+        const bubble = Bubble.generateNonOverlappingPosition(100, bubbles, randomItem(colors));
         bubbles.push(bubble);
         bubble.draw();
     }
     for (let i = 0; i < num30; i++) {
-        const bubble = Bubble.generateNonOverlappingPosition(30, bubbles, randomItem(color));
+        const bubble = Bubble.generateNonOverlappingPosition(30, bubbles, randomItem(colors));
         bubbles.push(bubble);
         bubble.draw();
     }
     for (let i = 0; i < num15; i++) {
-        const bubble = Bubble.generateNonOverlappingPosition(15, bubbles, randomItem(color));
+        const bubble = Bubble.generateNonOverlappingPosition(15, bubbles, randomItem(colors));
         bubbles.push(bubble);
         bubble.draw();
     }
@@ -273,6 +291,10 @@ function startGame() {
     player.draw();
     bubbles.push(player);
     // players.push(player);
+    startTime = null;
+    endTime = null;
+    elapsedTime = 0;
+    score = 0;
     console.log(bubbles);
     console.log(players);
     
@@ -291,21 +313,38 @@ function restartGame() {
 }
 
 function drawWinPopup() {
+    // const elapsedTime = endTime - startTime;
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.font = '30px Arial';
-    ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2);
+    ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2-20);
+    ctx.fillText(`${score} bubbles eaten`, canvas.width / 2, canvas.height / 2+20);
+    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} seconds`, canvas.width / 2, canvas.height / 2+60);
+    return;
+
 }
 
 function drawLosePopup() {
+    // const elapsedTime = endTime - startTime;
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
     ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.font = '30px Arial';
-    ctx.fillText('YOU LOSE!', canvas.width / 2, canvas.height / 2);
+    ctx.fillText('YOU LOSE!', canvas.width / 2, canvas.height / 2-20);
+    ctx.fillText(`${score} bubbles eaten`, canvas.width / 2, canvas.height / 2+20);
+    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} seconds`, canvas.width / 2, canvas.height / 2+60);
+    return;
+}
+
+// set stop counting function and store the elapsedTime only once when the condition is met
+function stopCounting(){
+    if (elapsedTime === 0) {
+        endTime = performance.now();
+        elapsedTime = endTime - startTime;
+    }
 }
 
 function animate(step) {
@@ -315,6 +354,12 @@ function animate(step) {
     let playerIsSmallest = true; // Flag to check if the player is the smallest
 
     // player.draw();
+    if (!startTime) {
+        startTime = performance.now();
+        console.log(startTime);
+    }
+
+    
 
 
     bubbles.forEach((bubble,index) => {
@@ -327,22 +372,26 @@ function animate(step) {
         // Check if player's radius is smaller than any other bubble
         if (bubble !== player && player.radius <= bubble.radius) {
             playerIsBiggest = false;
+
         }
 
         // Check if player's radius is bigger than any other bubble
         if (bubble !== player && player.radius >= bubble.radius) {
             playerIsSmallest = false;
+            
         }
     });
 
     // If player is the biggest
     if (playerIsBiggest) {
+        stopCounting();
         drawWinPopup();
     }
 
     // If player is the smallest
     if (playerIsSmallest) {
-        drawLosePopup()
+        stopCounting();
+        drawLosePopup();
     }
 
 

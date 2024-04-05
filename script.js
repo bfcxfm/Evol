@@ -318,10 +318,10 @@ function drawWinPopup() {
     ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
-    ctx.font = '30px Arial';
-    ctx.fillText('YOU WIN!', canvas.width / 2, canvas.height / 2-20);
-    ctx.fillText(`${score} bubbles eaten`, canvas.width / 2, canvas.height / 2+20);
-    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} seconds`, canvas.width / 2, canvas.height / 2+60);
+    ctx.font = "30px 'Gill Sans'";
+    ctx.fillText('Mission Succeeded!', canvas.width / 2, canvas.height / 2-20);
+    ctx.fillText(`${score} Bubbles Vanished`, canvas.width / 2, canvas.height / 2+20);
+    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} Seconds`, canvas.width / 2, canvas.height / 2+60);
     return;
 
 }
@@ -332,10 +332,10 @@ function drawLosePopup() {
     ctx.fillRect(canvas.width / 4, canvas.height / 4, canvas.width / 2, canvas.height / 2);
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
-    ctx.font = '30px Arial';
-    ctx.fillText('YOU LOSE!', canvas.width / 2, canvas.height / 2-20);
-    ctx.fillText(`${score} bubbles eaten`, canvas.width / 2, canvas.height / 2+20);
-    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} seconds`, canvas.width / 2, canvas.height / 2+60);
+    ctx.font = "30px 'Gill Sans'";
+    ctx.fillText('YOU DID NOT SURVIVE!', canvas.width / 2, canvas.height / 2-20);
+    ctx.fillText(`${score} Bubbles Vanished`, canvas.width / 2, canvas.height / 2+20);
+    ctx.fillText(`${(elapsedTime / 1000).toFixed(2)} Seconds`, canvas.width / 2, canvas.height / 2+60);
     return;
 }
 

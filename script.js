@@ -177,12 +177,12 @@ class Bubble {
             const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
             const totalDistance = Math.hypot(this.x - otherBubble.x, this.y - otherBubble.y);
             let difference;
-            let overRun = false ;
+            // let overRun = false ;
             if (totalDistance >= largerBubble.radius){
                 difference = largerBubble.radius + smallerBubble.radius - totalDistance;
             } else {
                 difference = 0;
-                overRun = true;
+                // overRun = true;
             }
             console.log(difference);
 
@@ -218,26 +218,27 @@ class Bubble {
                 let radiusIncrement = difference * 0.5 * 0.05;
                 let radiusReduce = difference * 0.05 ; 
                 let totalIncrease, totalReduce;
-                if (difference > 0 && !overRun){
+                if (difference > 0){
                 totalIncrease = largerBubble.radius + difference * 0.5;
                 totalReduce = smallerBubble.radius - difference;
                 } else {
                     totalIncrease = largerBubble.radius + smallerBubble.radius;
                     totalReduce = smallerBubble.radius;
-                    smallerBubble.radius = 0;
+                    // smallerBubble.radius = 0;
                 }
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
                     smallerBubble.radius -= radiusReduce;
                     largerBubble.color = randomItem(colorChange);
-                    // if (smallerBubble.radius - radiusReduce >= 0) {
-                    //     smallerBubble.radius -= radiusReduce;
-                    //     // largerBubble.radius += radiusIncrement;
-                    // } else {
-                    //     smallerBubble.radius = 0;
-                    //     // largerBubble.radius = totalIncrease; 
-                    //     // clearInterval(intervalId);
-                    // }
+                    if (smallerBubble.radius - radiusReduce >= 0) {
+                        smallerBubble.radius -= radiusReduce;
+                        // largerBubble.radius += radiusIncrement;
+                    } else {
+                        smallerBubble.radius = 0;
+                        speed = 0;
+                        // largerBubble.radius = totalIncrease; 
+                        // clearInterval(intervalId);
+                    }
                     
                     if (largerBubble.radius >=  totalIncrease || smallerBubble.radius <= totalReduce) {
                         clearInterval(intervalId);
@@ -390,7 +391,7 @@ function animate(step) {
             bubble.touch(bubbles[i]);
         }
         // Check if player's radius is smaller than any other bubble
-        if (bubble !== player && player.radius <= bubble.radius) {
+        if (bubble !== player && (player.radius <= bubble.radius || player.radius === 0)) {
             playerIsBiggest = false;
 
         }
@@ -412,7 +413,9 @@ function animate(step) {
     if (playerIsSmallest) {
         stopCounting();
         drawLosePopup();
-        return;
+        setTimeout(() => {
+            return;
+        }, 50)
     }
 
 

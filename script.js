@@ -9,6 +9,18 @@ const colors = ['#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47'];
 // const colorChange = ['#ff1111','#f2e900','#007aff','#02d7f2'];
 const colorChange = ['#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47'];
 const sizes = [15, 30, 125, 150];
+const canvasRect = canvas.getBoundingClientRect();
+
+
+
+
+let isMouseDown = false;
+// const clickableArea = {
+//     x: player.x,
+//     y: player.y,
+//     width: 2*player.radius,
+//     height: 2*player.radius,
+// };
 
 
 /*----- state variables -----*/
@@ -25,10 +37,48 @@ const message = document.querySelector('h3');
 /*----- event listeners -----*/
 
  restartBtn.addEventListener('click', restartGame);
- canvas.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+
+ //follow Mouse movement
+
+ document.addEventListener('mousedown', (event) => {
+
+    const canvas = document.querySelector('canvas');
+    const canvasRect = canvas.getBoundingClientRect();
+
+    // console.log(event.clientX, event.clientY);
+    // console.log(canvasRect.left,canvasRect.top);
+    // console.log(player.x, player.y);
+
+    if (
+        event.clientX >= canvasRect.left + player.x - player.radius&&
+        event.clientX <= canvasRect.left + player.x + player.radius&&
+        event.clientY >= canvasRect.top + player.y - player.radius&&
+        event.clientY <= canvasRect.top + player.y + player.radius
+    ) {
+        isMouseDown = true;
+        console.log('isMouseDown is true');
+    }
+
+    console.log('isMouseDown is false');
+
+    
 });
+
+document.addEventListener('mouseup', () => {
+    isMouseDown = false;
+});
+
+
+document.addEventListener('mousemove', (event) => {
+    const canvas = document.querySelector('canvas');
+    const canvasRect = canvas.getBoundingClientRect();
+    mouseX = event.clientX - canvasRect.left;
+    mouseY = event.clientY - canvasRect.top;
+});
+
+
+
+
 
 //  window.onload = function() {
 //     restartGame();
@@ -69,31 +119,51 @@ class Bubble {
 
     // Getter and setter
 
-    getBXPos() {
-        return this.x;
-    }
+    // getBXPos() {
+    //     return this.x;
+    // }
 
-    getBYPos() {
-        return this.y;
-    }
-    getTop() {
-        return this.y-this.radius;
-    }
-    getBtm(){
-        return this.y+this.radius;
-    }
-    getLeft() {
-        return this.x-this.radius;
-    }
-    getRight() {
-        return this.x+this.radius;
-    }
+    // getBYPos() {
+    //     return this.y;
+    // }
+    // getTop() {
+    //     return this.y-this.radius;
+    // }
+    // getBtm(){
+    //     return this.y+this.radius;
+    // }
+    // getLeft() {
+    //     return this.x-this.radius;
+    // }
+    // getRight() {
+    //     return this.x+this.radius;
+    // }
 
     // moveLeft() {
     //     if (this.x > 0) {
     //         this.x -= speed;
     //     }
     // }
+
+    // moveRight() {
+    //     if (this.x < canvasWidth) {
+    //         this.x += speed;
+    //     }
+    // }
+
+    // moveUp() {
+    //     if (this.y > 0) {
+    //         this.y -= speed;
+    //     }
+    // }
+
+    // moveDown() {
+    //     if (this.y < canvasHeight) {
+    //         this.y += speed;
+    //     }
+    // }
+
+
 
     moveLeft() {
         this.xVelocity = Math.min(this.xVelocity + 0.5, speed);
@@ -105,11 +175,7 @@ class Bubble {
         }
     }
 
-    // moveRight() {
-    //     if (this.x < canvasWidth) {
-    //         this.x += speed;
-    //     }
-    // }
+    
 
     moveRight() {
         this.xVelocity = Math.min(this.xVelocity + 0.5, speed);
@@ -121,11 +187,7 @@ class Bubble {
         }
     }
 
-    // moveUp() {
-    //     if (this.y > 0) {
-    //         this.y -= speed;
-    //     }
-    // }
+   
 
     moveUp() {
         this.yVelocity = Math.min(this.yVelocity + 0.5, speed);
@@ -138,11 +200,6 @@ class Bubble {
     }
 
 
-    // moveDown() {
-    //     if (this.y < canvasHeight) {
-    //         this.y += speed;
-    //     }
-    // }
 
     moveDown() {
         this.yVelocity = Math.min(this.yVelocity + 0.5, speed);
@@ -152,6 +209,57 @@ class Bubble {
         if (this.y > canvasHeight + this.radius) {
             this.y = -this.radius;
         }
+    }
+
+
+
+    moveToMouse() {
+        if (isMouseDown) {
+            const dx = mouseX - this.x;
+            const dy = mouseY - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+    
+            if (distance > 5) {
+                this.xVelocity = dx/distance * speed * 0.5;
+                this.yVelocity = dy/distance * speed * 0.5;
+                const newX = this.x + this.xVelocity;
+                const newY = this.y + this.yVelocity;
+                // this.x = mouseX;
+                // this.y = mouseY;
+
+
+            
+
+            // Check if the new position is within the canvas bounds
+            if (
+                newX >= 0 &&
+                newX <= canvasWidth &&
+                newY >= 0 &&
+                newY <= canvasHeight
+            ) {
+                // Update the player's position
+                this.x = newX;
+                this.y = newY;
+            } else {
+                // Keep the player within the canvas bounds
+                this.x = Math.max(this.radius, Math.min(newX, canvasWidth - this.radius));
+                this.y = Math.max(this.radius, Math.min(newY, canvasHeight - this.radius));
+            }
+    
+            // Wrap around the canvas horizontally
+            // if (this.x < -this.radius) {
+            //     this.x = canvasWidth + this.radius;
+            // } else if (this.x > canvasWidth + this.radius) {
+            //     this.x = -this.radius;
+            // }
+    
+            // Wrap around the canvas vertically
+            // if (this.y < -this.radius) {
+            //     this.y = canvasHeight + this.radius;
+            // } else if (this.y > canvasHeight + this.radius) {
+            //     this.y = -this.radius;
+            // }
+        }}
     }
 
     // Methods
@@ -236,13 +344,21 @@ class Bubble {
                     } else {
                         smallerBubble.radius = 0;
                         speed = 0;
+                        clearInterval(intervalId)
                         // largerBubble.radius = totalIncrease; 
                         // clearInterval(intervalId);
                     }
-                    
-                    if (smallerBubble.radius <= totalReduce) {
+
+                    if (largerBubble.radius < totalIncrease) {
+                        largerBubble.radius += radiusIncrement;
+                        largerBubble.color = randomItem(colorChange);
+                      } else {
                         clearInterval(intervalId);
-                    }
+                      }
+                    
+                    // if (smallerBubble.radius <= totalReduce && largerBubble.radius >= totalIncrease) {
+                    //     clearInterval(intervalId);
+                    // }
                 }, 50); // Increase the radius every 50 milliseconds
                 console.log(bubbles);
                 console.log(players);
@@ -310,14 +426,24 @@ function startGame() {
     generateBubbles();
     player = Bubble.generateNonOverlappingPosition(20, bubbles, 'black');
     player.draw();
+    player.moveToMouse();
     bubbles.push(player);
     // players.push(player);
     startTime = null;
     endTime = null;
     elapsedTime = 0;
+    mouseX = 0;
+    mouseY = 0;
     score = 0;
     console.log(bubbles);
     console.log(players);
+
+    clickableArea = {
+        x: player.x,
+        y: player.y,
+        width: 2*player.radius,
+        height: 2*player.radius,
+    };
     
 }
 
@@ -371,6 +497,7 @@ function stopCounting(){
 function animate(step) {
     //Runs animate over and over again 60 frames per second
     initialize();
+    player.moveToMouse();
     let playerIsBiggest = true; // Flag to check if the player is the biggest
     let playerIsSmallest = true; // Flag to check if the player is the smallest
 

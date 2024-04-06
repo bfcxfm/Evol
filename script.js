@@ -413,9 +413,6 @@ function animate(step) {
     if (playerIsSmallest) {
         stopCounting();
         drawLosePopup();
-        setTimeout(() => {
-            return;
-        }, 50)
     }
 
 

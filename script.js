@@ -240,7 +240,7 @@ class Bubble {
                         // clearInterval(intervalId);
                     }
                     
-                    if (largerBubble.radius >=  totalIncrease || smallerBubble.radius <= totalReduce) {
+                    if (smallerBubble.radius <= totalReduce) {
                         clearInterval(intervalId);
                     }
                 }, 50); // Increase the radius every 50 milliseconds

@@ -15,11 +15,12 @@ const sizes = [15, 30, 125, 150];
 let player;
 let bubbles = [];
 let players = [];
-var speed = 20;
+var speed = 15;
 
 /*----- cached elements -----*/
 const restartBtn = document.querySelector('button');
 const message = document.querySelector('h3');
+
 
 /*----- event listeners -----*/
 
@@ -175,8 +176,15 @@ class Bubble {
             const smallerBubble = this.radius < otherBubble.radius ? this : otherBubble;
             const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
             const totalDistance = Math.hypot(this.x - otherBubble.x, this.y - otherBubble.y);
-            const difference = largerBubble.radius + smallerBubble.radius - totalDistance;
-            // console.log(difference);
+            let difference;
+            let overRun = false ;
+            if (totalDistance >= largerBubble.radius){
+                difference = largerBubble.radius + smallerBubble.radius - totalDistance;
+            } else {
+                difference = 0;
+                overRun = true;
+            }
+            console.log(difference);
 
             // Remove the smaller bubble
             const index = bubbles.indexOf(smallerBubble);
@@ -195,7 +203,7 @@ class Bubble {
                 let totalIncrease = largerBubble.radius + smallerBubble.radius*0.5;
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
-                    const colorFixed = largerBubble.color;
+                    // const colorFixed = largerBubble.color;
                     largerBubble.color = randomItem(colorChange);
                     // smallerBubble.radius -= radiusIncrement;
                     if (largerBubble.radius >=  totalIncrease) {
@@ -209,17 +217,29 @@ class Bubble {
                 // smallerBubble.radius -= difference;
                 let radiusIncrement = difference * 0.5 * 0.05;
                 let radiusReduce = difference * 0.05 ; 
-                let totalIncrease = largerBubble.radius + difference*0.5;
-                let totalReduce = smallerBubble.radius - difference;
+                let totalIncrease, totalReduce;
+                if (difference > 0 && !overRun){
+                totalIncrease = largerBubble.radius + difference * 0.5;
+                totalReduce = smallerBubble.radius - difference;
+                } else {
+                    totalIncrease = largerBubble.radius + smallerBubble.radius;
+                    totalReduce = smallerBubble.radius;
+                    smallerBubble.radius = 0;
+                }
                 let intervalId = setInterval(() => {
                     largerBubble.radius += radiusIncrement;
+                    smallerBubble.radius -= radiusReduce;
                     largerBubble.color = randomItem(colorChange);
-                    if (smallerBubble.radius - radiusReduce >= 0) {
-                        smallerBubble.radius -= radiusReduce;
-                    } else {
-                        smallerBubble.radius = 0; 
-                    }
-                    if (largerBubble.radius >=  totalIncrease || smallerBubble.radius <= totalReduce ) {
+                    // if (smallerBubble.radius - radiusReduce >= 0) {
+                    //     smallerBubble.radius -= radiusReduce;
+                    //     // largerBubble.radius += radiusIncrement;
+                    // } else {
+                    //     smallerBubble.radius = 0;
+                    //     // largerBubble.radius = totalIncrease; 
+                    //     // clearInterval(intervalId);
+                    // }
+                    
+                    if (largerBubble.radius >=  totalIncrease || smallerBubble.radius <= totalReduce) {
                         clearInterval(intervalId);
                     }
                 }, 50); // Increase the radius every 50 milliseconds
@@ -392,6 +412,7 @@ function animate(step) {
     if (playerIsSmallest) {
         stopCounting();
         drawLosePopup();
+        return;
     }
 
 

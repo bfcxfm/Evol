@@ -24,7 +24,7 @@ const canvasRect = canvas.getBoundingClientRect();
 let player;
 let bubbles = [];
 let players = [];
-var speed = 15;
+// var speed = 15;
 
 /*----- cached elements -----*/
 const restartBtn = document.querySelector('button');
@@ -543,7 +543,7 @@ function startGame() {
     endTime = null;
     elapsedTime = 0;
     score = 0;
-
+    speed = 15;
     mouseX = 0;
     mouseY = 0;
     isMouseDown = false;
@@ -567,7 +567,11 @@ async function restartGame() {
             '#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47',
         ],
       });
-      refreshPage();
+    initialize();
+    bubbles = [];
+    players = [];
+    startGame();
+    //   refreshPage();
 }
 
 function drawWinPopup() {

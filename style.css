@@ -55,6 +55,6 @@ canvas {
 @media (max-width: 767px) {
   canvas {
     width: 100vw;
-    height: 95vh;
+    height: calc(100vh - env(safe-area-inset-bottom));
   }
 }

@@ -17,6 +17,9 @@ const canvasRect = canvas.getBoundingClientRect();
 
 
 
+
+
+
 /*----- state variables -----*/
 let player;
 let bubbles = [];
@@ -521,7 +524,9 @@ function initialize() {
 
 initialize();
 
-
+function refreshPage() {
+    window.location.reload();
+}
 
 function startGame() {
     generateBubbles();
@@ -553,10 +558,15 @@ startGame();
 
 
 
-function restartGame() {
-    bubbles = [];
-    players = [];
-    startGame();
+async function restartGame() {
+    const jsConfetti = new JSConfetti() ;
+    await jsConfetti.addConfetti({
+        confettiRadius: parseInt(canvas.width/25),
+        confettiColors: [
+            '#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47',
+        ],
+      });
+      refreshPage();
 }
 
 function drawWinPopup() {

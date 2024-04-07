@@ -559,7 +559,8 @@ startGame();
 
 
 async function restartGame() {
-    const jsConfetti = new JSConfetti() ;
+    const jsConfetti = new JSConfetti({ canvas });
+    jsConfetti.clearCanvas();
     await jsConfetti.addConfetti({
         confettiRadius: parseInt(canvas.width/25),
         confettiColors: [

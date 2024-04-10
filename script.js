@@ -242,8 +242,8 @@ class Bubble {
             const distance = Math.sqrt(dx * dx + dy * dy);
     
             if (distance > 5) {
-                this.xVelocity = dx/distance * speed * 0.5;
-                this.yVelocity = dy/distance * speed * 0.5;
+                this.xVelocity = dx/distance * speed * 0.3;
+                this.yVelocity = dy/distance * speed * 0.3;
                 const newX = this.x + this.xVelocity;
                 const newY = this.y + this.yVelocity;
                 // this.x = mouseX;
@@ -503,7 +503,7 @@ function generateBubbles() {
             bubble.draw();
         }
         for (let i = 0; i < num30; i++) {
-            const bubble = Bubble.generateNonOverlappingPosition(parseInt(canvas.width/15), bubbles, randomItem(colors));
+            const bubble = Bubble.generateNonOverlappingPosition(parseInt(canvas.width/13), bubbles, randomItem(colors));
             bubbles.push(bubble);
             bubble.draw();
         }
@@ -560,13 +560,13 @@ startGame();
 
 async function restartGame() {
     const jsConfetti = new JSConfetti({ canvas });
-    jsConfetti.clearCanvas();
     await jsConfetti.addConfetti({
         confettiRadius: parseInt(canvas.width/25),
         confettiColors: [
             '#3fc6cc','#efcc1a','#f08519','#f08519','#c9db47',
         ],
       });
+    //   jsConfetti.clearCanvas();
     initialize();
     bubbles = [];
     players = [];

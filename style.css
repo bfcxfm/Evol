@@ -71,4 +71,8 @@ canvas {
     width: 100vw;
     height: 85vh;
   }
+
+  body > button {
+    font-size: 5vmin; 
+  }
 }

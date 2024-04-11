@@ -360,7 +360,7 @@ class Bubble {
 
                 // overRun = true;
             }
-            console.log(difference);
+            // console.log(difference);
 
             // Remove the smaller bubble
             const index = bubbles.indexOf(smallerBubble);
@@ -370,8 +370,8 @@ class Bubble {
                 bubbles.splice(index, 1);
                 score += 1;
             
-                console.log(bubbles);
-                console.log(players);
+                // console.log(bubbles);
+                // console.log(players);
                 // Increase the radius of the larger bubble
                 // largerBubble.radius += smallerBubble.radius*0.5;
                 // Increase the radius of the larger bubble in slow motion
@@ -428,8 +428,8 @@ class Bubble {
                     //     clearInterval(intervalId);
                     // }
                 }, 5); // Increase the radius every 50 milliseconds
-                console.log(bubbles);
-                console.log(players);
+                // console.log(bubbles);
+                // console.log(players);
 
             }
         
@@ -547,8 +547,8 @@ function startGame() {
     mouseX = 0;
     mouseY = 0;
     isMouseDown = false;
-    console.log(bubbles);
-    console.log(players);
+    // console.log(bubbles);
+    // console.log(players);
     
 }
 
@@ -643,7 +643,7 @@ function animate(step) {
     // player.draw();
     if (!startTime) {
         startTime = performance.now();
-        console.log(startTime);
+        // console.log(startTime);
     }
 
     

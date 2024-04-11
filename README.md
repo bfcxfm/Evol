@@ -56,8 +56,6 @@ flowchart TD;
   end
   ```
 
-![Mermaid Diagram](https://github.com/bfcxfm/evol/blob/main/img/mermaid-d.png#gh-dark-mode-only)
-![Mermaid Diagram](https://github.com/bfcxfm/evol/blob/main/img/mermaid-l.png#gh-light-mode-only)
 
 
 

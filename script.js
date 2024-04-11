@@ -53,10 +53,10 @@ const message = document.querySelector('h3');
         event.clientY <= canvasRect.top + player.y + player.radius
     ) {
         isMouseDown = true;
-        console.log('isMouseDown is true');
+        // console.log('isMouseDown is true');
     }
 
-    console.log('isMouseDown is false');
+    // console.log('isMouseDown is false');
 
     
 });

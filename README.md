@@ -4,10 +4,12 @@
 
 <p>Welcome to "Evol, The Hunger Game" where the ultimate objective is to consume enough particles to grow larger than any other on the level! Get ready to embark on an exciting adventure through each level as you aim to dominate and establish your supremacy. Keep in mind that success hinges on both consuming and evading the larger entities to secure the top position. </p>
 
+You can experience the [Demo](https://works.creaturexd.com/evol/) here!
+
 
 <h2>Game Setup</h2>
 
-In this game, you will take control of the black bubble as the player and navigate it through a playground filled with bubbles of various sizes. Your mission is to become the largest bubble in the playground by consuming smaller bubbles and growing in size.
+In this game, you will take control of the black bubble as the player and navigate it through a colorful playground filled with bubbles of various sizes. Your mission is to become the largest bubble in the playground by consuming smaller bubbles and growing in size.
 
 ![Initial Wining Sketch](https://github.com/bfcxfm/evol/blob/main/img/win.png#center)
 
@@ -18,7 +20,7 @@ Be cautious though! If your bubble accidentally touches a bubble larger than its
 
 <h3>Adaptive Design</h3>
 
-Get ready to experience the game on a variety of devices with a adaptive design feature. Whether you're playing on a desktop (with a screen width larger than 768px), an iPad, or a mobile device, we've got you covered with tailored controls for each platform.
+Get ready to experience the game on a variety of devices with an adaptive design feature. Whether you're playing on a desktop (with a screen width larger than 768px), an iPad, or a mobile device, this game is designed with tailored controls for each platform.
 
 ![Mobile Mode](https://github.com/bfcxfm/evol/blob/main/img/mobile.gif#center)
 

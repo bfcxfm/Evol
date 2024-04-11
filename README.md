@@ -9,20 +9,20 @@
 
 In this game, you will take control of the black bubble as the player and navigate it through a playground filled with bubbles of various sizes. Your mission is to become the largest bubble in the playground by consuming smaller bubbles and growing in size.
 
-![Initial Wining Sketch](https://github.com/bfcxfm/evol/blob/main/img/win.png)
+![Initial Wining Sketch](https://github.com/bfcxfm/evol/blob/main/img/win.png#center)
 
 Be cautious though! If your bubble accidentally touches a bubble larger than itself, your size will start to shrink. To emerge victorious, swiftly maneuver away from larger bubbles to avoid diminishing in size. Remember, the player will only triumph if they remain larger than any other bubble in the playground.
 
-![Initial Losing Sketch](https://github.com/bfcxfm/evol/blob/main/img/lose.png)
+![Initial Losing Sketch](https://github.com/bfcxfm/evol/blob/main/img/lose.png#center)
 
 
 <h3>Adaptive Design</h3>
 
 Get ready to experience the game on a variety of devices with a adaptive design feature. Whether you're playing on a desktop (with a screen width larger than 768px), an iPad, or a mobile device, we've got you covered with tailored controls for each platform.
 
-![Desktop Mode](https://github.com/bfcxfm/evol/blob/main/img/desktop.gif)
+![Mobile Mode](https://github.com/bfcxfm/evol/blob/main/img/mobile.gif#center)
 
 On desktop, enjoy seamless gameplay with keyboard and mouse control support, allowing you to navigate your bubble player with precision and ease. For iPad and mobile users, immerse yourself in the game with touch screen control support, making it intuitive and convenient to maneuver your bubble through the playground.
 
-![Mobile Mode](https://github.com/bfcxfm/evol/blob/main/img/mobile.gif)
+![Desktop Mode](https://github.com/bfcxfm/evol/blob/main/img/desktop.gif#center)
 

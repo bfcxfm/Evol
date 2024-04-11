@@ -22,7 +22,7 @@ Be cautious though! If your bubble accidentally touches a bubble larger than its
 
 Get ready to experience the game on a variety of devices with an adaptive design feature. Whether you're playing on a desktop (with a screen width larger than 768px), an iPad, or a mobile device, this game is designed with tailored controls for each platform.
 
-<p style="text-align:center">
+<p align="center">
     <img src="https://github.com/bfcxfm/evol/blob/main/img/mobile.gif" alt="Mobile Mode">
 </p>
 

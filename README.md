@@ -13,6 +13,7 @@ In this game, you will take control of the black bubble as the player and naviga
 
 <!-- <img src="https://i.imgur.com/XagTF9B.jpg" /> -->
 ```mermaid
+---
 Evol, the HUnger Game - Diagram
 ---
 flowchart TD;

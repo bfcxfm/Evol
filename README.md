@@ -81,11 +81,11 @@ On desktop, enjoy seamless gameplay with keyboard and mouse control support, all
 
 <h3>Favourites and Challenges</h3>
 
-A primary feature of the game involves the algorithmic generation of bubbles without overlapping, coupled with the implementation of animations triggered by bubble interactions - a highly favored aspect of the game.
+A primary feature of the game involves the algorithmic generation of bubbles without overlapping, coupled with the implementation of animations triggered by bubble interactions - a favored aspect of the game.
 
 ```
 ---
-Favourites and Challenges parts
+Favourite and Challenging parts
 ---
 static generateNonOverlappingPosition(radius, bubbles, color) {
     let x, y;

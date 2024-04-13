@@ -11,7 +11,6 @@ You can experience the [Demo](https://works.creaturexd.com/evol/) here!
 
 In this game, you will take control of the black bubble as the player and navigate it through a colorful playground filled with bubbles of various sizes. 
 
-<!-- <img src="https://i.imgur.com/XagTF9B.jpg" /> -->
 ```mermaid
 ---
 Evol, the HUnger Game - Diagram
@@ -79,4 +78,113 @@ Get ready to experience the game on a variety of devices with an adaptive design
 On desktop, enjoy seamless gameplay with keyboard and mouse control support, allowing you to navigate your bubble player with precision and ease. For iPad and mobile users, immerse yourself in the game with touch screen control support, making it intuitive and convenient to maneuver your bubble through the playground.
 
 ![Desktop Mode](https://github.com/bfcxfm/evol/blob/main/img/desktop.gif#center)
+
+<h3>Favourites and Challenges</h3>
+
+A primary feature of the game involves the algorithmic generation of bubbles without overlapping, coupled with the implementation of animations triggered by bubble interactions - a highly favored aspect of the game.
+
+```
+---
+Favourites and Challenges parts
+---
+static generateNonOverlappingPosition(radius, bubbles, color) {
+    let x, y;
+    do {
+        x = Math.floor(Math.random() * (canvas.width - 2 * radius)) + radius;
+        y = Math.floor(Math.random() * (canvas.height - 2 * radius)) + radius;
+    } while (bubbles.some(bubble => Bubble.checkOverlap(bubble, x, y, radius + 15)));
+    return new Bubble(x, y, radius, color);
+}
+
+static checkOverlap(bubble, x, y, radius) {
+    return Math.hypot(bubble.x - x, bubble.y - y) < bubble.radius + radius;
+}
+
+touch(otherBubble) {
+        // Check if the bubbles are touching
+        if (Bubble.checkOverlap(this, otherBubble.x, otherBubble.y, otherBubble.radius)) {
+            // Determine the bubble with the smaller radius
+            const smallerBubble = this.radius < otherBubble.radius ? this : otherBubble;
+            const largerBubble = this.radius >= otherBubble.radius ? this : otherBubble;
+            const totalDistance = Math.hypot(this.x - otherBubble.x, this.y - otherBubble.y);
+            let difference;
+            if (totalDistance >= largerBubble.radius){
+                difference = largerBubble.radius + smallerBubble.radius - totalDistance;
+            } else {
+                difference = 0;
+
+                smallerBubble.radius = 0;
+                speed = 0 ;
+
+            }
+
+            // Remove the smaller bubble
+            const index = bubbles.indexOf(smallerBubble);
+            if (index !== -1 && index !== bubbles.length-1) {
+                bubbles.splice(index, 1);
+                score += 1;
+            
+                // Increase the radius of the larger bubble
+                // largerBubble.radius += smallerBubble.radius*0.5;
+                // Increase the radius of the larger bubble in slow motion
+                let radiusIncrement = smallerBubble.radius * 0.05;
+                let totalIncrease = largerBubble.radius + smallerBubble.radius*0.5;
+                let intervalId = setInterval(() => {
+                    largerBubble.radius += radiusIncrement;
+                    largerBubble.color = randomItem(colorChange);
+                    // smallerBubble.radius -= radiusIncrement;
+                    if (largerBubble.radius >=  totalIncrease) {
+                        largerBubble.color = 'black';
+                        clearInterval(intervalId);
+                        
+                    }
+                }, 50); // Increase the radius every 50 milliseconds
+            } else if (index === bubbles.length-1) {
+                // largerBubble.radius += difference*0.5;
+                // smallerBubble.radius -= difference;
+                let radiusIncrement = difference * 0.5 * 0.05;
+                let radiusReduce = difference * 0.05 ; 
+                let totalIncrease, totalReduce;
+                if (difference > 0){
+                totalIncrease = largerBubble.radius + difference * 0.5;
+                totalReduce = smallerBubble.radius - difference;
+                } else {
+                    totalIncrease = largerBubble.radius + smallerBubble.radius;
+                    totalReduce = smallerBubble.radius;
+                }
+                let intervalId = setInterval(() => {
+                    largerBubble.radius += radiusIncrement;
+                    smallerBubble.radius -= radiusReduce;
+                    largerBubble.color = randomItem(colorChange);
+                    if (smallerBubble.radius > radiusReduce) {
+                        smallerBubble.radius -= radiusReduce;
+                    } else {
+                        smallerBubble.radius = 0;
+                        speed = 0;
+                        clearInterval(intervalId)
+                    }
+
+                    if (largerBubble.radius < totalIncrease) {
+                        largerBubble.radius += radiusIncrement;
+                        largerBubble.color = randomItem(colorChange);
+                      } else {
+                        clearInterval(intervalId);
+                      }                   
+                }, 5); // Increase the radius every 5 milliseconds
+            }
+        }
+    }
+  end
+  ```
+
+
+<h3>Future Implementation</h3>
+
+1. **Zoom in and Zoom out**
+
+    The screen will track the user's point of view, enabling zoom in and zoom out functionalities to provide users with a broader perspective of the entire game environment.
+
+2. **Infinite Canvas with Pan**
+
+    Implementing an infinite canvas will allow users to explore a vast world beyond the game's boundaries and facilitate seamless, continuous exploration within the game environment.
 

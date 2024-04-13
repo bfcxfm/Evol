@@ -427,7 +427,7 @@ class Bubble {
                     // if (smallerBubble.radius <= totalReduce && largerBubble.radius >= totalIncrease) {
                     //     clearInterval(intervalId);
                     // }
-                }, 5); // Increase the radius every 50 milliseconds
+                }, 5); // Increase the radius every 5 milliseconds
                 // console.log(bubbles);
                 // console.log(players);
 

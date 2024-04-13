@@ -148,7 +148,7 @@ touch(otherBubble) {
                 totalIncrease = largerBubble.radius + smallerBubble.radius;
                 totalReduce = smallerBubble.radius;
             }
-            
+
             let intervalId = setInterval(() => {
                 largerBubble.radius += radiusIncrement;
                 smallerBubble.radius -= radiusReduce;
@@ -176,9 +176,9 @@ touch(otherBubble) {
 
 1. **Zoom in and Zoom out**
 
-    The screen will track the user's point of view, enabling zoom in and zoom out functionalities to provide users with a broader perspective of the entire game environment.
+    The screen will track the player's point of view, enabling zoom in and zoom out functionalities to provide players with a broader perspective of the entire game environment.
 
 2. **Infinite Canvas with Pan**
 
-    Implementing an infinite canvas will allow users to explore a vast world beyond the game's boundaries and facilitate seamless, continuous exploration within the game environment.
+    Implementing an infinite canvas will allow players to explore a vast world beyond the game's boundaries and facilitate seamless, continuous exploration within the game environment.
 

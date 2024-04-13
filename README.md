@@ -172,8 +172,7 @@ touch(otherBubble) {
                 }                   
             }, 5); // Increase the radius every 5 milliseconds
 }}}
-  end
-  ```
+```
 
 
 <h3>Future Implementation</h3>

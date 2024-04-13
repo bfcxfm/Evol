@@ -71,13 +71,16 @@ Be cautious though! If your bubble accidentally touches a bubble larger than its
 
 Get ready to experience the game on a variety of devices with an adaptive design feature. Whether you're playing on a desktop (with a screen width larger than 768px), an iPad, or a mobile device, this game is designed with tailored controls for each platform.
 
+![Desktop Mode](https://github.com/bfcxfm/evol/blob/main/img/desktop.gif#center)
+
+
+On desktop, enjoy seamless gameplay with keyboard and mouse control support, allowing you to navigate your bubble player with precision and ease. For iPad and mobile users, immerse yourself in the game with touch screen control support, making it intuitive and convenient to maneuver your bubble through the playground.
+
+
 <p align="center">
     <img src="https://github.com/bfcxfm/evol/blob/main/img/mobile.gif" alt="Mobile Mode">
 </p>
 
-On desktop, enjoy seamless gameplay with keyboard and mouse control support, allowing you to navigate your bubble player with precision and ease. For iPad and mobile users, immerse yourself in the game with touch screen control support, making it intuitive and convenient to maneuver your bubble through the playground.
-
-![Desktop Mode](https://github.com/bfcxfm/evol/blob/main/img/desktop.gif#center)
 
 <h3>Favourites and Challenges</h3>
 

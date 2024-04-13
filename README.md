@@ -101,6 +101,7 @@ static checkOverlap(bubble, x, y, radius) {
 }
 
 touch(otherBubble) {
+    
     // Check if the bubbles are touching
     if (Bubble.checkOverlap(this, otherBubble.x, otherBubble.y, otherBubble.radius)) {
         // Determine the bubble with the smaller radius
@@ -112,7 +113,6 @@ touch(otherBubble) {
             difference = largerBubble.radius + smallerBubble.radius - totalDistance;
         } else {
             difference = 0;
-
             smallerBubble.radius = 0;
             speed = 0 ;
 
@@ -124,24 +124,20 @@ touch(otherBubble) {
             bubbles.splice(index, 1);
             score += 1;
         
-            // Increase the radius of the larger bubble
-            // largerBubble.radius += smallerBubble.radius*0.5;
             // Increase the radius of the larger bubble in slow motion
             let radiusIncrement = smallerBubble.radius * 0.05;
             let totalIncrease = largerBubble.radius + smallerBubble.radius*0.5;
             let intervalId = setInterval(() => {
                 largerBubble.radius += radiusIncrement;
                 largerBubble.color = randomItem(colorChange);
-                // smallerBubble.radius -= radiusIncrement;
                 if (largerBubble.radius >=  totalIncrease) {
                     largerBubble.color = 'black';
                     clearInterval(intervalId);
                     
                 }
             }, 50); // Increase the radius every 50 milliseconds
+
         } else if (index === bubbles.length-1) {
-            // largerBubble.radius += difference*0.5;
-            // smallerBubble.radius -= difference;
             let radiusIncrement = difference * 0.5 * 0.05;
             let radiusReduce = difference * 0.05 ; 
             let totalIncrease, totalReduce;
@@ -152,6 +148,7 @@ touch(otherBubble) {
                 totalIncrease = largerBubble.radius + smallerBubble.radius;
                 totalReduce = smallerBubble.radius;
             }
+            
             let intervalId = setInterval(() => {
                 largerBubble.radius += radiusIncrement;
                 smallerBubble.radius -= radiusReduce;
